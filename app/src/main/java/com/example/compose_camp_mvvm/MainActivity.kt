@@ -12,15 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose_camp_mvvm.core.GithubRepository
-import com.example.compose_camp_mvvm.data.GithubRepositoryImpl
-import com.example.compose_camp_mvvm.data.client.GithubApiClient
-import com.example.compose_camp_mvvm.data.client.client
 import com.example.compose_camp_mvvm.ui.theme.Compose_Camp_MVVMTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var repository: GithubRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +35,11 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
-
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d("APICall","${GithubRepositoryImpl(GithubApiClient(client)).findUser("john")}")
+            val user= repository.findUser("john")
+            Log.d("APICall","$user")
+            println("User details are: $user")
+
         }
     }
 }
