@@ -8,22 +8,11 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class GithubApiClient(private val httpClient: HttpClient) {
+class GithubApiClient @Inject constructor(private val httpClient: HttpClient) {
         suspend fun findUser(username: String): GithubUserResponse {
             return httpClient.get(urlString = "https://api.github.com/users/$username").body()
         }
 }
 
-    val client = HttpClient(CIO){
-    install(ContentNegotiation){
-        json(
-            Json{
-                ignoreUnknownKeys = true
-            }
-        )
-    }
-
-
-
-}

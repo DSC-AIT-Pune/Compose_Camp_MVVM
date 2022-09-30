@@ -3,8 +3,9 @@ package com.example.compose_camp_mvvm.data
 import com.example.compose_camp_mvvm.core.GithubRepository
 import com.example.compose_camp_mvvm.core.GithubUser
 import com.example.compose_camp_mvvm.data.client.GithubApiClient
+import javax.inject.Inject
 
-class GithubRepositoryImpl(
+class GithubRepositoryImpl @Inject constructor(
     private val githubApiClient: GithubApiClient
 ): GithubRepository {
     override suspend fun findUser(username: String): GithubUser? {
